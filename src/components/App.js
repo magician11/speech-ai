@@ -5,7 +5,9 @@ import {
   AppBar,
   Toolbar,
   TextField,
+  Button,
   Paper,
+  Box,
   Grid
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,6 +18,10 @@ const useStyles = makeStyles(theme => ({
     backgroundImage: `url(${speakerImage})`,
     backgroundSize: 'cover',
     height: window.innerHeight
+  },
+  buttonContainer: {
+    textAlign: 'center',
+    marginTop: theme.spacing(3)
   }
 }));
 
@@ -43,11 +49,14 @@ export default () => {
               fullWidth
               autoFocus
               multiline
-              rows={8}
+              rows={11}
               placeholder="What would you like me to say?"
               variant="filled"
             />
           </Paper>
+          <Box className={classes.buttonContainer}>
+            <Button variant="contained">Read it to me</Button>
+          </Box>
         </Grid>
       </Grid>
     </Fragment>
