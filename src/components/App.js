@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { say } from '../modules/speech';
+import { translate } from '../modules/translate';
 import speakerImage from '../images/speaker.jpg';
 
 const useStyles = makeStyles(theme => ({
@@ -31,9 +32,10 @@ export default () => {
   const [speaking, setSpeaking] = useState(false);
   const [text, setText] = useState();
 
-  const sayText = async event => {
+  const sayText = async () => {
     setSpeaking(true);
-    await say(text);
+    const englishText = await translate(text);
+    await say(englishText);
     setSpeaking(false);
   };
 
