@@ -1,12 +1,10 @@
 import axios from 'axios';
 
 const translate = async text => {
-  const res = await axios(
+  const res = await axios.post(
     'https://us-central1-speech-ai-1111.cloudfunctions.net/translate',
     {
-      params: {
-        text
-      }
+      text
     }
   );
 

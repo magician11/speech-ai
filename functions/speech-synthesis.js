@@ -3,7 +3,7 @@ const axios = require('axios');
 
 // get speech from text
 const speechSynthesis = async text => {
-  console.log(`Synthesising the following text to speech: ${text}`);
+  functions.logger.log('Synthesising the following text to speech', text);
 
   const response = await axios.post(
     `https://texttospeech.googleapis.com/v1beta1/text:synthesize?key=${
