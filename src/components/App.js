@@ -34,8 +34,15 @@ const App = () => {
 
   const sayText = async () => {
     setSpeaking(true);
-    const englishText = await translate(text);
-    await say(englishText);
+
+    // https://stackoverflow.com/a/6259543/2813041
+    var parts = text.match(/[\s\S]{1,2200}/g) || [];
+
+    for (const part of parts) {
+      const englishText = await translate(part);
+      await say(englishText);
+    }
+
     setSpeaking(false);
   };
 
