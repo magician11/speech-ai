@@ -1,14 +1,10 @@
-import axios from 'axios';
+import firebase from './firebase';
 
 const translate = async text => {
-  const res = await axios.post(
-    'https://us-central1-speech-ai-1111.cloudfunctions.net/translate',
-    {
-      text
-    }
-  );
+  var translateText = firebase.functions().httpsCallable('translate');
+  const res = await translateText({ text });
 
-  return res.data.data.translations[0].translatedText;
+  return res.data.translations[0].translatedText;
 };
 
 export { translate };

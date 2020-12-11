@@ -1,5 +1,4 @@
 const functions = require('firebase-functions');
-const cors = require('cors')({ origin: true });
 const translate = require('./translate');
 const speechSynthesis = require('./speech-synthesis');
 
@@ -8,16 +7,17 @@ exports.textToSpeech = functions
     timeoutSeconds: 540,
     memory: '2GB'
   })
-  .https.onRequest((req, res) => {
-    return cors(req, res, async () => {
-      const speech = await speechSynthesis(req.body.text);
-      res.send(speech);
-    });
+  .https.onCall(async (data, context) => {
+    const speech = await speechSynthesis(data.text);
+    return speech;
   });
 
-exports.translate = functions.https.onRequest((req, res) => {
-  return cors(req, res, async () => {
-    const englishText = await translate(req.body.text);
-    res.send(englishText);
+exports.translate = functions
+  .runWith({
+    timeoutSeconds: 540,
+    memory: '2GB'
+  })
+  .https.onCall(async (data, context) => {
+    const englishText = await translate(data.text);
+    return englishText;
   });
-});

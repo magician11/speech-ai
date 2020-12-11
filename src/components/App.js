@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default () => {
+const App = () => {
   const classes = useStyles();
   const [speaking, setSpeaking] = useState(false);
   const [text, setText] = useState();
@@ -44,7 +44,14 @@ export default () => {
       <CssBaseline />
       <AppBar position="fixed" color="transparent">
         <Toolbar>
-          <Typography variant="h5">Speech AI</Typography>
+          <Typography
+            variant="h5"
+            style={{
+              color: 'white'
+            }}
+          >
+            Speech AI
+          </Typography>
         </Toolbar>
       </AppBar>
 
@@ -77,3 +84,5 @@ export default () => {
     </Fragment>
   );
 };
+
+export default App;

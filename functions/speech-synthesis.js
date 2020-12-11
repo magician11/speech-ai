@@ -1,29 +1,51 @@
 const functions = require('firebase-functions');
-const axios = require('axios');
+const got = require('got');
 
-// get speech from text
+/*
+
+get speech from text
+https://cloud.google.com/text-to-speech/docs/reference/rest/v1beta1/text/synthesize#synthesisinput
+
+"The input size is limited to 5000 characters."
+
+It seems to fail though for characters over 2200
+
+*/
 const speechSynthesis = async text => {
-  functions.logger.log('Synthesising the following text to speech', text);
+  let textToSynthesise = text;
+  const maxCharacters = 2200;
+  if (text.length > maxCharacters) {
+    textToSynthesise = `You have too much to say. I can't synthesise more than ${maxCharacters} characters at a time. You sent in ${text.length} characters.`;
+  }
 
-  const response = await axios.post(
-    `https://texttospeech.googleapis.com/v1beta1/text:synthesize?key=${
-      functions.config().google.key
-    }`,
-    {
-      audioConfig: {
-        audioEncoding: 'LINEAR16'
-      },
-      input: {
-        text
-      },
-      voice: {
-        languageCode: 'en-GB',
-        name: 'en-GB-Wavenet-A'
-      }
-    }
+  functions.logger.log(
+    `Synthesising the following ${textToSynthesise.length} characters of text to speech`,
+    textToSynthesise
   );
 
-  return response.data;
+  const response = await got
+    .post(
+      `https://texttospeech.googleapis.com/v1beta1/text:synthesize?key=${
+        functions.config().google.key
+      }`,
+      {
+        json: {
+          audioConfig: {
+            audioEncoding: 'LINEAR16'
+          },
+          input: {
+            text: textToSynthesise
+          },
+          voice: {
+            languageCode: 'en-GB',
+            name: 'en-GB-Wavenet-A'
+          }
+        }
+      }
+    )
+    .json();
+
+  return response;
 };
 
 module.exports = speechSynthesis;
