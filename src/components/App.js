@@ -64,7 +64,7 @@ const App = () => {
         style={{
           backgroundImage: `url(${speakerImage})`,
           backgroundSize: 'cover',
-          height: window.innerHeight,
+          height: '100vh',
           paddingTop: 88
         }}
       >
