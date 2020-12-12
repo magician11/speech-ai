@@ -18,14 +18,14 @@ const App = () => {
   const [text, setText] = useState();
   const [analysingText, setAnalysingText] = useState(false);
   const [readyToSpeak, setReadyToSpeak] = useState(false);
-  const [isIphone, setIsIphone] = useState(false);
-  const [device, setDevice] = useState();
+  const [isSupportedDevice, setIsSupportedDevice] = useState(true);
 
   useEffect(() => {
-    setDevice(navigator.platform);
-
-    if (navigator.platform === 'iPhone') {
-      setIsIphone(true);
+    if (
+      navigator.platform === 'iPhone' || // iPhones
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 2) //iPads
+    ) {
+      setIsSupportedDevice(false);
     }
   }, []);
 
@@ -55,20 +55,20 @@ const App = () => {
     status = "Enter some text when you're ready...";
   }
 
-  const dashboard = isIphone ? (
+  const dashboard = !isSupportedDevice ? (
     <Grid
       container
       justify="center"
       alignItems="center"
       style={{ marginTop: 33 }}
     >
-      <Grid item xs={12} sm={6} lg={4}>
-        <Paper style={{ padding: 22, margin: 11 }}>
-          <Typography variant="h6" gutterBottom>
-            Sorry, this app doesn't work with iPhones.
+      <Grid item xs={12} sm={6}>
+        <Paper style={{ padding: 11, margin: 11 }}>
+          <Typography variant="h6" gutterBottom align="center">
+            Sorry, your device is not supported 🥺
           </Typography>
-          <Typography variant="body1">
-            It'll work on your computer though, even Macs 😀
+          <Typography variant="body1" align="center">
+            It'll work on your computer though
           </Typography>
         </Paper>
       </Grid>
@@ -137,9 +137,9 @@ const App = () => {
           >
             Speech AI
           </Typography>
-          <Typography variant="caption" gutterBottom style={{ color: 'white' }}>
+          {/* <Typography variant="caption" gutterBottom style={{ color: 'white' }}>
             Your device: {device}
-          </Typography>
+          </Typography> */}
         </Toolbar>
       </AppBar>
       <div
