@@ -7,7 +7,6 @@ import {
   TextField,
   Button,
   Paper,
-  Box,
   Grid
 } from '@material-ui/core';
 import { say } from '../modules/speech';
@@ -104,20 +103,26 @@ const App = () => {
               variant="filled"
             />
           </Paper>
-          <Box
-            style={{
-              textAlign: 'center',
-              marginTop: 33
-            }}
-          >
-            <Button
-              variant="contained"
-              onClick={sayText}
-              disabled={analysingText}
-            >
-              Read it to me
-            </Button>
-          </Box>
+          <Grid container style={{ marginTop: 22 }}>
+            <Grid item xs={6} style={{ textAlign: 'center' }}>
+              <Button
+                variant="contained"
+                onClick={() => setText('')}
+                disabled={analysingText}
+              >
+                Clear
+              </Button>
+            </Grid>
+            <Grid item xs={6} style={{ textAlign: 'center' }}>
+              <Button
+                variant="contained"
+                onClick={sayText}
+                disabled={analysingText}
+              >
+                Read it to me
+              </Button>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </>

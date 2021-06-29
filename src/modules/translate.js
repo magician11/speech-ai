@@ -1,10 +1,20 @@
-import firebase from './firebase';
+import ky from 'ky';
 
 const translate = async text => {
-  var translateText = firebase.functions().httpsCallable('translate');
-  const res = await translateText({ text });
+  const response = await ky
+    .post(
+      `https://translation.googleapis.com/language/translate/v2?key=${process.env.REACT_APP_GOOGLE_API_KEY}`,
+      {
+        json: {
+          q: text,
+          target: 'en',
+          format: 'text'
+        }
+      }
+    )
+    .json();
 
-  return res.data.translations[0].translatedText;
+  return response.data.translations[0].translatedText;
 };
 
 export { translate };
